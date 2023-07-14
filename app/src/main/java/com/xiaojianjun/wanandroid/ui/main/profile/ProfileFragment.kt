@@ -4,10 +4,11 @@ import android.annotation.SuppressLint
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import com.xiaojianjun.wanandroid.R
-import com.xiaojianjun.wanandroid.base.BaseVmFragment
+import com.xiaojianjun.wanandroid.base.BaseFragment
 import com.xiaojianjun.wanandroid.common.bus.Bus
 import com.xiaojianjun.wanandroid.common.bus.USER_LOGIN_STATE_CHANGED
 import com.xiaojianjun.wanandroid.common.core.ActivityHelper
+import com.xiaojianjun.wanandroid.databinding.FragmentProfileBinding
 import com.xiaojianjun.wanandroid.model.bean.Article
 import com.xiaojianjun.wanandroid.model.store.UserInfoStore
 import com.xiaojianjun.wanandroid.model.store.isLogin
@@ -20,9 +21,8 @@ import com.xiaojianjun.wanandroid.ui.points.mine.MinePointsActivity
 import com.xiaojianjun.wanandroid.ui.points.rank.PointsRankActivity
 import com.xiaojianjun.wanandroid.ui.settings.SettingsActivity
 import com.xiaojianjun.wanandroid.ui.shared.SharedActivity
-import kotlinx.android.synthetic.main.fragment_profile.*
 
-class ProfileFragment : BaseVmFragment<ProfileViewModel>() {
+class ProfileFragment : BaseFragment<FragmentProfileBinding,ProfileViewModel>() {
 
     companion object {
         fun newInstance() = ProfileFragment()
@@ -33,25 +33,25 @@ class ProfileFragment : BaseVmFragment<ProfileViewModel>() {
     override fun viewModelClass() = ProfileViewModel::class.java
 
     override fun initView() {
-        clHeader.setOnClickListener {
+        mBinding.clHeader.setOnClickListener {
             checkLogin { /*上传头像，暂不支持*/ }
         }
-        llMyPoints.setOnClickListener {
+        mBinding.llMyPoints.setOnClickListener {
             checkLogin { ActivityHelper.startActivity(MinePointsActivity::class.java) }
         }
-        llPointsRank.setOnClickListener {
+        mBinding.llPointsRank.setOnClickListener {
             ActivityHelper.startActivity(PointsRankActivity::class.java)
         }
-        llMyShare.setOnClickListener {
+        mBinding.llMyShare.setOnClickListener {
             checkLogin { ActivityHelper.startActivity(SharedActivity::class.java) }
         }
-        llMyCollect.setOnClickListener {
+        mBinding.llMyCollect.setOnClickListener {
             checkLogin { ActivityHelper.startActivity(CollectionActivity::class.java) }
         }
-        llHistory.setOnClickListener {
+        mBinding.llHistory.setOnClickListener {
             ActivityHelper.startActivity(HistoryActivity::class.java)
         }
-        llAboutAuthor.setOnClickListener {
+        mBinding.llAboutAuthor.setOnClickListener {
             ActivityHelper.startActivity(
                 DetailActivity::class.java,
                 mapOf(
@@ -62,10 +62,10 @@ class ProfileFragment : BaseVmFragment<ProfileViewModel>() {
                 )
             )
         }
-        llOpenSource.setOnClickListener {
+        mBinding.llOpenSource.setOnClickListener {
             ActivityHelper.startActivity(OpenSourceActivity::class.java)
         }
-        llSetting.setOnClickListener {
+        mBinding.llSetting.setOnClickListener {
             ActivityHelper.startActivity(SettingsActivity::class.java)
         }
 
@@ -74,9 +74,9 @@ class ProfileFragment : BaseVmFragment<ProfileViewModel>() {
 
     override fun observe() {
         super.observe()
-        Bus.observe<Boolean>(USER_LOGIN_STATE_CHANGED, viewLifecycleOwner, {
+        Bus.observe<Boolean>(USER_LOGIN_STATE_CHANGED, viewLifecycleOwner) {
             updateUi()
-        })
+        }
     }
 
 
@@ -84,12 +84,12 @@ class ProfileFragment : BaseVmFragment<ProfileViewModel>() {
     private fun updateUi() {
         val isLogin = isLogin()
         val userInfo = UserInfoStore.getUserInfo()
-        tvLoginRegister.isGone = isLogin
-        tvNickName.isVisible = isLogin
-        tvId.isVisible = isLogin
+        mBinding.tvLoginRegister.isGone = isLogin
+        mBinding.tvNickName.isVisible = isLogin
+        mBinding.tvId.isVisible = isLogin
         if (isLogin && userInfo != null) {
-            tvNickName.text = userInfo.nickname
-            tvId.text = "ID: ${userInfo.id}"
+            mBinding.tvNickName.text = userInfo.nickname
+            mBinding.tvId.text = "ID: ${userInfo.id}"
         }
     }
 }

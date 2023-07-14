@@ -7,7 +7,7 @@ import com.xiaojianjun.wanandroid.ext.concat
 import com.xiaojianjun.wanandroid.model.bean.PointRank
 
 /**
- * Created by xiaojianjun on 2019-12-02.
+ * Created by yangfeihu on 2019-12-02.
  */
 class PointsRankViewModel : BaseViewModel() {
     companion object {

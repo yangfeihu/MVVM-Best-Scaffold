@@ -3,7 +3,7 @@ package com.xiaojianjun.wanandroid.common.simple
 import android.widget.SeekBar
 
 /**
- * Created by xiaojianjun on 2019-12-09.
+ * Created by yangfeihu on 2019-12-09.
  */
 class SeekBarChangeListenerAdapter(
     private val onProgressChanged: ((seekBar: SeekBar?, progress: Int, fromUser: Boolean) -> Unit)? = null,

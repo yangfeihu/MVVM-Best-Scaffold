@@ -8,7 +8,7 @@ import com.xiaojianjun.wanandroid.model.bean.PointRank
 import com.xiaojianjun.wanandroid.model.bean.PointRecord
 
 /**
- * Created by xiaojianjun on 2019-12-02.
+ * Created by yangfeihu on 2019-12-02.
  */
 class MinePointsViewModel : BaseViewModel() {
     companion object {

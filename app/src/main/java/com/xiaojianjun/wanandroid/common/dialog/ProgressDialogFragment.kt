@@ -5,18 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import com.xiaojianjun.wanandroid.R
-import kotlinx.android.synthetic.main.fragment_progress_dialog.*
+import com.xiaojianjun.wanandroid.databinding.FragmentProgressDialogBinding
 
 /**
- * Created by xiaojianjun on 2019-11-26.
+ * Created by yangfeihu on 2019-11-26.
  */
 class ProgressDialogFragment : DialogFragment() {
 
     private var messageResId: Int? = null
-
+    lateinit var binding: FragmentProgressDialogBinding
     companion object {
         fun newInstance() =
             ProgressDialogFragment()
@@ -26,13 +27,17 @@ class ProgressDialogFragment : DialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_progress_dialog, container, false)
+    ): View {
+        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_progress_dialog, container, false)
+        return binding.root
     }
+
+
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        tvMessage.text = getString(messageResId ?: R.string.loading)
+        binding.tvMessage.text = getString(messageResId ?: R.string.loading)
     }
 
     fun show(

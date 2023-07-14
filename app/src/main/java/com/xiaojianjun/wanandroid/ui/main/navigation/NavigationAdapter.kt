@@ -1,14 +1,15 @@
 package com.xiaojianjun.wanandroid.ui.main.navigation
 
+import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.xiaojianjun.wanandroid.R
 import com.xiaojianjun.wanandroid.model.bean.Article
 import com.xiaojianjun.wanandroid.model.bean.Navigation
-import kotlinx.android.synthetic.main.item_navigation.view.*
+import com.zhy.view.flowlayout.TagFlowLayout
 
 /**
- * Created by xiaojianjun on 2019-11-15.
+ * Created by yangfeihu on 2019-11-15.
  */
 class NavigationAdapter(layoutResId: Int = R.layout.item_navigation) :
     BaseQuickAdapter<Navigation, BaseViewHolder>(layoutResId) {
@@ -17,6 +18,10 @@ class NavigationAdapter(layoutResId: Int = R.layout.item_navigation) :
 
     override fun convert(holder: BaseViewHolder, item: Navigation) {
         holder.itemView.run {
+
+            val title = findViewById<TextView>(R.id.title)
+            val tagFlawLayout = findViewById<TagFlowLayout>(R.id.tagFlawLayout)
+
             title.text = item.name
             tagFlawLayout.adapter = ItemTagAdapter(item.articles)
             tagFlawLayout.setOnTagClickListener { _, position, _ ->

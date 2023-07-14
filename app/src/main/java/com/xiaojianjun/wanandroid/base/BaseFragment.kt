@@ -1,25 +1,17 @@
 package com.xiaojianjun.wanandroid.base
 
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 
+abstract class BaseFragment<V : ViewDataBinding,VM : BaseViewModel> : BaseVmFragment<VM>() {
 
-/**
- * A simple [Fragment] subclass.
- */
-open class BaseFragment : Fragment() {
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(layoutRes(), container, false)
+    lateinit var mBinding: V
+    override fun initDataViewBinding(inflater: LayoutInflater, container: ViewGroup?): View? {
+        mBinding = DataBindingUtil.inflate(inflater,layoutRes(), container, false)
+        return mBinding.root
     }
-
-    open fun layoutRes() = 0
 
 }

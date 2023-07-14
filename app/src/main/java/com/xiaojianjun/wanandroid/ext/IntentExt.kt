@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.os.Parcelable
 
 /**
- * Created by xiaojianjun on 2019-11-21.
+ * Created by yangfeihu on 2019-11-21.
  */
 @Suppress("UNCHECKED_CAST")
 fun Intent.putExtras(vararg extras: Pair<String, Any>) {

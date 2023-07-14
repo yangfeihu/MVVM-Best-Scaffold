@@ -73,32 +73,33 @@ suspend fun ActivityResultCaller.requestPermission(
  * 请求多项权限，接口异步回调请求结果
  */
 fun ActivityResultCaller.requestMultiplePermissions(
-    vararg permissions: String,
-    callback: (MutableMap<String, Boolean>) -> Unit
+    permissions: Array<String>,
+    callback: (Map<String, Boolean>) -> Unit
 ) {
-    var launcher: ActivityResultLauncher<Array<out String>>? = null
-    launcher =
-        registerForActivityResult(RequestMultiplePermissions()) { result ->
+    var launcher: ActivityResultLauncher<Array<String>>? = null
+
+    launcher = registerForActivityResult(RequestMultiplePermissions()) { result ->
             callback.invoke(result)
             launcher?.unregister()
         }
     launcher.launch(permissions)
 }
 
+
 /**
  * 请求多项权限，协程同步返回请求结果
  */
 suspend fun ActivityResultCaller.requestMultiplePermissions(
-    vararg permissions: String
-): MutableMap<String, Boolean> {
+    permissions: Array<String>,
+): Map<String, Boolean> {
     return suspendCoroutine { continuation ->
-        var launcher: ActivityResultLauncher<Array<out String>>? = null
-        launcher =
-            registerForActivityResult(RequestMultiplePermissions()) { result ->
+        var launcher: ActivityResultLauncher<Array<String>>? = null
+
+        launcher = registerForActivityResult(RequestMultiplePermissions()) { result ->
                 continuation.resume(result)
-                launcher?.unregister()
+                 launcher?.unregister()
             }
-        launcher.launch(permissions)
+        launcher.launch(permissions as Array<String>?)
     }
 }
 

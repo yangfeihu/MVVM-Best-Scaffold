@@ -5,7 +5,7 @@ import androidx.core.app.ShareCompat
 import com.xiaojianjun.wanandroid.R
 
 /**
- * Created by xiaojianjun on 2019-11-21.
+ * Created by yangfeihu on 2019-11-21.
  */
 fun share(
     activity: Activity,

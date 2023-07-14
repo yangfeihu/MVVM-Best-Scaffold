@@ -8,7 +8,7 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.xiaojianjun.wanandroid.R
 
 /**
- * Created by xiaojianjun on 2019-11-06.
+ * Created by yangfeihu on 2019-11-06.
  */
 class CommonLoadMoreView : BaseLoadMoreView() {
 

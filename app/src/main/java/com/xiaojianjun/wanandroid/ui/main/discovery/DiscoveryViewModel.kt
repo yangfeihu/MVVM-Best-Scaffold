@@ -2,7 +2,7 @@ package com.xiaojianjun.wanandroid.ui.main.discovery
 
 import androidx.lifecycle.MutableLiveData
 import com.xiaojianjun.wanandroid.base.BaseViewModel
-import com.xiaojianjun.wanandroid.model.bean.Banner
+import com.xiaojianjun.wanandroid.model.bean.BannerData
 import com.xiaojianjun.wanandroid.model.bean.Frequently
 import com.xiaojianjun.wanandroid.model.bean.HotWord
 
@@ -10,7 +10,7 @@ class DiscoveryViewModel : BaseViewModel() {
 
     private val dicoveryRepository by lazy { DiscoveryRepository() }
 
-    val banners = MutableLiveData<List<Banner>>()
+    val banners = MutableLiveData<List<BannerData>>()
     val hotWords = MutableLiveData<List<HotWord>>()
     val frequentlyList = MutableLiveData<List<Frequently>>()
 

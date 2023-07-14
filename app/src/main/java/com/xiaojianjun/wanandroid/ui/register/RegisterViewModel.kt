@@ -7,7 +7,7 @@ import com.xiaojianjun.wanandroid.common.bus.USER_LOGIN_STATE_CHANGED
 import com.xiaojianjun.wanandroid.model.store.UserInfoStore
 
 /**
- * Created by xiaojianjun on 2019-10-18.
+ * Created by yangfeihu on 2019-10-18.
  */
 class RegisterViewModel : BaseViewModel() {
     private val registerRepository by lazy { RegisterRepository() }

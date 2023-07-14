@@ -2,33 +2,43 @@ package com.xiaojianjun.wanandroid.ui.main
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.ViewPropertyAnimator
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.google.android.material.animation.AnimationUtils
 import com.xiaojianjun.wanandroid.R
-import com.xiaojianjun.wanandroid.base.BaseActivity
+import com.xiaojianjun.wanandroid.base.CommonActivity
 import com.xiaojianjun.wanandroid.common.ScrollToTop
+import com.xiaojianjun.wanandroid.databinding.ActivityMainBinding
 import com.xiaojianjun.wanandroid.ext.showToast
 import com.xiaojianjun.wanandroid.ui.main.discovery.DiscoveryFragment
 import com.xiaojianjun.wanandroid.ui.main.home.HomeFragment
 import com.xiaojianjun.wanandroid.ui.main.navigation.NavigationFragment
 import com.xiaojianjun.wanandroid.ui.main.profile.ProfileFragment
 import com.xiaojianjun.wanandroid.ui.main.system.SystemFragment
-import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : BaseActivity() {
+
+class MainActivity : CommonActivity() {
 
     private lateinit var fragments: Map<Int, Fragment>
     private var bottomNavigationViewAnimtor: ViewPropertyAnimator? = null
     private var currentBottomNavagtionState = true
     private var previousTimeMillis = 0L
 
-    override fun layoutRes() = R.layout.activity_main
+    private lateinit var viewBinding: ActivityMainBinding
+
+
+    override fun initDataViewBinding(): Boolean {
+        viewBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        return true;
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        //将Fragment保存到map中
         fragments = mapOf(
             R.id.home to createFragment(HomeFragment::class.java),
             R.id.system to createFragment(SystemFragment::class.java),
@@ -37,26 +47,29 @@ class MainActivity : BaseActivity() {
             R.id.mine to createFragment(ProfileFragment::class.java)
         )
 
-        bottomNavigationView.run {
-            setOnNavigationItemSelectedListener { menuItem ->
-                showFragment(menuItem.itemId)
-                true
-            }
-            setOnNavigationItemReselectedListener { menuItem ->
-                val fragment = fragments[menuItem.itemId]
-                if (fragment is ScrollToTop) {
-                    fragment.scrollToTop()
-                }
-            }
-        }
+         //监听设置
+        viewBinding.bottomNavigationView.run {
+             setOnNavigationItemSelectedListener { menuItem ->
+                 showFragment(menuItem.itemId)
+                 true
+             }
+             setOnNavigationItemReselectedListener { menuItem ->
+                 val fragment = fragments[menuItem.itemId]
+                 if (fragment is ScrollToTop) {
+                     fragment.scrollToTop()
+                 }
+             }
+         }
 
+        //设置默认的Fragment
         if (savedInstanceState == null) {
             val initialItemId = R.id.home
-            bottomNavigationView.selectedItemId = initialItemId
+            viewBinding.bottomNavigationView.selectedItemId = initialItemId
             showFragment(initialItemId)
         }
     }
 
+    //创建一个Fragment
     private fun createFragment(clazz: Class<out Fragment>): Fragment {
         var fragment = supportFragmentManager.fragments.find { it.javaClass == clazz }
         if (fragment == null) {
@@ -72,7 +85,9 @@ class MainActivity : BaseActivity() {
         return fragment
     }
 
+    //显示Fragment
     private fun showFragment(menuItemId: Int) {
+        //查找当前的Fragment
         val currentFragment = supportFragmentManager.fragments.find {
             it.isVisible && it in fragments.values
         }
@@ -85,28 +100,31 @@ class MainActivity : BaseActivity() {
         }.commit()
     }
 
+    //切换动画
+    @SuppressLint("RestrictedApi")
     fun animateBottomNavigationView(show: Boolean) {
         if (currentBottomNavagtionState == show) {
             return
         }
         if (bottomNavigationViewAnimtor != null) {
             bottomNavigationViewAnimtor?.cancel()
-            bottomNavigationView.clearAnimation()
+            viewBinding.bottomNavigationView.clearAnimation()
         }
         currentBottomNavagtionState = show
-        val targetY = if (show) 0F else bottomNavigationView.measuredHeight.toFloat()
+        val targetY = if (show) 0F else viewBinding.bottomNavigationView.measuredHeight.toFloat()
         val duration = if (show) 225L else 175L
-        bottomNavigationViewAnimtor = bottomNavigationView.animate()
+        bottomNavigationViewAnimtor = viewBinding.bottomNavigationView.animate()
             .translationY(targetY)
             .setDuration(duration)
             .setInterpolator(AnimationUtils.LINEAR_OUT_SLOW_IN_INTERPOLATOR)
             .setListener(object : AnimatorListenerAdapter() {
-                override fun onAnimationEnd(animation: Animator?) {
+                override  fun onAnimationEnd(animation: Animator) {
                     bottomNavigationViewAnimtor = null
                 }
             })
     }
 
+     //返回按键处理
     override fun onBackPressed() {
         val currentTimMillis = System.currentTimeMillis()
         if (currentTimMillis - previousTimeMillis < 2000) {
@@ -117,9 +135,10 @@ class MainActivity : BaseActivity() {
         }
     }
 
+    //activity销毁
     override fun onDestroy() {
         bottomNavigationViewAnimtor?.cancel()
-        bottomNavigationView.clearAnimation()
+        viewBinding.bottomNavigationView.clearAnimation()
         bottomNavigationViewAnimtor = null
         super.onDestroy()
     }

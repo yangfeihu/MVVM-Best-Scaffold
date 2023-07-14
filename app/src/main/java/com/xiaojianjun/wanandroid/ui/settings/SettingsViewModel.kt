@@ -7,7 +7,7 @@ import com.xiaojianjun.wanandroid.model.api.RetrofitClient
 import com.xiaojianjun.wanandroid.model.store.UserInfoStore
 
 /**
- * Created by xiaojianjun on 2019-11-30.
+ * Created by yangfeihu on 2019-11-30.
  */
 class SettingsViewModel : BaseViewModel() {
     fun logout() {

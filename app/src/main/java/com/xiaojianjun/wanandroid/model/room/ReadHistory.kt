@@ -7,7 +7,7 @@ import com.xiaojianjun.wanandroid.model.bean.Article
 import com.xiaojianjun.wanandroid.model.bean.Tag
 
 /**
- * Created by xiaojianjun on 2019-12-05.
+ * Created by yangfeihu on 2019-12-05.
  */
 @Entity
 data class ReadHistory(

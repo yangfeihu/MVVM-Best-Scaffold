@@ -1,15 +1,16 @@
 package com.xiaojianjun.wanandroid.ui.opensource
 
 import android.os.Bundle
+import androidx.databinding.DataBindingUtil
 import com.xiaojianjun.wanandroid.R
-import com.xiaojianjun.wanandroid.base.BaseActivity
+import com.xiaojianjun.wanandroid.base.CommonActivity
 import com.xiaojianjun.wanandroid.common.core.ActivityHelper
+import com.xiaojianjun.wanandroid.databinding.ActivityOpenSourceBinding
 import com.xiaojianjun.wanandroid.model.bean.Article
 import com.xiaojianjun.wanandroid.ui.detail.DetailActivity
 import com.xiaojianjun.wanandroid.ui.detail.DetailActivity.Companion.PARAM_ARTICLE
-import kotlinx.android.synthetic.main.activity_open_source.*
 
-class OpenSourceActivity : BaseActivity() {
+class OpenSourceActivity : CommonActivity() {
 
     private val openSourceData = listOf(
         Article(
@@ -56,6 +57,15 @@ class OpenSourceActivity : BaseActivity() {
 
     override fun layoutRes() = R.layout.activity_open_source
 
+
+    lateinit var mBinding:ActivityOpenSourceBinding
+    override fun initDataViewBinding(): Boolean {
+        mBinding = DataBindingUtil.setContentView(this, layoutRes())
+        //binding.setVariable(BR.viewModel, mViewModel)
+        mBinding.lifecycleOwner = this
+        return true;
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -65,9 +75,9 @@ class OpenSourceActivity : BaseActivity() {
                 val article = it.data[position]
                 ActivityHelper.startActivity(DetailActivity::class.java, mapOf(PARAM_ARTICLE to article))
             }
-            recyclerView.adapter = it
+            mBinding.recyclerView.adapter = it
         }
 
-        ivBack.setOnClickListener { ActivityHelper.finish(OpenSourceActivity::class.java) }
+        mBinding.ivBack.setOnClickListener { ActivityHelper.finish(OpenSourceActivity::class.java) }
     }
 }

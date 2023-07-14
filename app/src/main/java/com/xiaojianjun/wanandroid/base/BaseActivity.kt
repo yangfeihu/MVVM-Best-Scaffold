@@ -1,40 +1,17 @@
 package com.xiaojianjun.wanandroid.base
 
 import android.os.Bundle
-import androidx.annotation.StringRes
-import androidx.appcompat.app.AppCompatActivity
-import com.xiaojianjun.wanandroid.common.dialog.ProgressDialogFragment
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 
-abstract class BaseActivity : AppCompatActivity() {
+abstract class BaseActivity<V : ViewDataBinding, VM : BaseViewModel> : BaseVmActivity<VM>() {
 
-    private lateinit var progressDialogFragment: ProgressDialogFragment
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(layoutRes())
-    }
-
-    open fun layoutRes() = 0
-
-    /**
-     * 显示加载(转圈)对话框
-     */
-    fun showProgressDialog(@StringRes message: Int) {
-        if (!this::progressDialogFragment.isInitialized) {
-            progressDialogFragment = ProgressDialogFragment.newInstance()
-        }
-        if (!progressDialogFragment.isAdded) {
-            progressDialogFragment.show(supportFragmentManager, message, false)
-        }
-    }
-
-    /**
-     * 隐藏加载(转圈)对话框
-     */
-    fun dismissProgressDialog() {
-        if (this::progressDialogFragment.isInitialized && progressDialogFragment.isVisible) {
-            progressDialogFragment.dismissAllowingStateLoss()
-        }
+    lateinit var mBinding: V
+    override fun initDataViewBinding(): Boolean {
+        mBinding = DataBindingUtil.setContentView(this, layoutRes())
+        //binding.setVariable(BR.viewModel, mViewModel)
+        mBinding.lifecycleOwner = this
+        return true;
     }
 
 }

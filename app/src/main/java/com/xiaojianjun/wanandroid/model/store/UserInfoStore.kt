@@ -8,7 +8,7 @@ import com.xiaojianjun.wanandroid.common.core.putSpValue
 import com.xiaojianjun.wanandroid.model.bean.UserInfo
 
 /**
- * Created by xiaojianjun on 2019-11-24.
+ * Created by yangfeihu on 2019-11-24.
  * 用户信息存储
  */
 object UserInfoStore {

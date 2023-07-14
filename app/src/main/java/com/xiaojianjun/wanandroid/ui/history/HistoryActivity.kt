@@ -3,19 +3,19 @@ package com.xiaojianjun.wanandroid.ui.history
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import com.xiaojianjun.wanandroid.R
-import com.xiaojianjun.wanandroid.base.BaseVmActivity
+import com.xiaojianjun.wanandroid.base.BaseActivity
 import com.xiaojianjun.wanandroid.common.bus.Bus
 import com.xiaojianjun.wanandroid.common.bus.USER_COLLECT_UPDATED
 import com.xiaojianjun.wanandroid.common.bus.USER_LOGIN_STATE_CHANGED
 import com.xiaojianjun.wanandroid.common.core.ActivityHelper
+import com.xiaojianjun.wanandroid.databinding.ActivityHistoryBinding
 import com.xiaojianjun.wanandroid.ui.detail.DetailActivity
 import com.xiaojianjun.wanandroid.ui.main.home.ArticleAdapter
-import kotlinx.android.synthetic.main.activity_history.*
 
 /**
- * Created by xiaojianjun on 2019-11-29.
+ * Created by yangfeihu on 2019-11-29.
  */
-class HistoryActivity : BaseVmActivity<HistoryViewModel>() {
+class HistoryActivity : BaseActivity<ActivityHistoryBinding,HistoryViewModel>() {
 
     companion object {
         fun newInstance(): HistoryActivity {
@@ -61,16 +61,16 @@ class HistoryActivity : BaseVmActivity<HistoryViewModel>() {
                     .setPositiveButton(R.string.confirm) { _, _ ->
                         mViewModel.deleteHistory(it.data[position])
                         mAdapter.removeAt(position)
-                        this@HistoryActivity.emptyView.isVisible = it.data.isEmpty()
+                        mBinding.emptyView.root.isVisible = it.data.isEmpty()
                     }.show()
                 true
             }
-            recyclerView.adapter = it
+            mBinding.recyclerView.adapter = it
         }
     }
 
     private fun initListeners() {
-        ivBack.setOnClickListener {
+        mBinding.ivBack.setOnClickListener {
             ActivityHelper.finish(HistoryActivity::class.java)
         }
     }
@@ -86,17 +86,17 @@ class HistoryActivity : BaseVmActivity<HistoryViewModel>() {
 
     override fun observe() {
         super.observe()
-        mViewModel.articleList.observe(this, {
+        mViewModel.articleList.observe(this) {
             mAdapter.setList(it)
-        })
-        mViewModel.emptyStatus.observe(this, {
-            emptyView.isVisible = it
-        })
-        Bus.observe<Boolean>(USER_LOGIN_STATE_CHANGED, this, {
+        }
+        mViewModel.emptyStatus.observe(this) {
+            mBinding.emptyView.root.isVisible = it
+        }
+        Bus.observe<Boolean>(USER_LOGIN_STATE_CHANGED, this) {
             mViewModel.updateListCollectState()
-        })
-        Bus.observe<Pair<Long, Boolean>>(USER_COLLECT_UPDATED, this, {
+        }
+        Bus.observe<Pair<Long, Boolean>>(USER_COLLECT_UPDATED, this) {
             mViewModel.updateItemCollectState(it)
-        })
+        }
     }
 }

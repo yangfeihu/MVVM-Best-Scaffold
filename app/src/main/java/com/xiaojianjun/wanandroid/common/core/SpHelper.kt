@@ -6,7 +6,7 @@ import android.content.Context
 
 
 /**
- * Created by xiaojianjun on 2019-11-24.
+ * Created by yangfeihu on 2019-11-24.
  */
 private const val SP_WANANDROID = "sp_wanandroid"
 

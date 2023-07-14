@@ -1,7 +1,7 @@
 package com.xiaojianjun.wanandroid.common.core
 
 /**
- * Created by xiaojianjun on 2019-11-20.
+ * Created by yangfeihu on 2019-11-20.
  * 允许连接的Host白名单
  * 参照: https://github.com/goweii/WanAndroid
  */

@@ -8,7 +8,7 @@ import com.xiaojianjun.wanandroid.model.store.isLogin
 import com.xiaojianjun.wanandroid.ui.common.CollectRepository
 
 /**
- * Created by xiaojianjun on 2019-11-18.
+ * Created by yangfeihu on 2019-11-18.
  */
 class DetailViewModel : BaseViewModel() {
 

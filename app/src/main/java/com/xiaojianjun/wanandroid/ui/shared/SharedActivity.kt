@@ -3,19 +3,19 @@ package com.xiaojianjun.wanandroid.ui.shared
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import com.xiaojianjun.wanandroid.R
-import com.xiaojianjun.wanandroid.base.BaseVmActivity
+import com.xiaojianjun.wanandroid.base.BaseActivity
 import com.xiaojianjun.wanandroid.common.bus.Bus
 import com.xiaojianjun.wanandroid.common.bus.USER_COLLECT_UPDATED
 import com.xiaojianjun.wanandroid.common.bus.USER_LOGIN_STATE_CHANGED
 import com.xiaojianjun.wanandroid.common.core.ActivityHelper
 import com.xiaojianjun.wanandroid.common.loadmore.setLoadMoreStatus
+import com.xiaojianjun.wanandroid.databinding.ActivitySharedBinding
 import com.xiaojianjun.wanandroid.ui.detail.DetailActivity
 import com.xiaojianjun.wanandroid.ui.main.home.ArticleAdapter
 import com.xiaojianjun.wanandroid.ui.share.ShareActivity
-import kotlinx.android.synthetic.main.activity_shared.*
-import kotlinx.android.synthetic.main.include_reload.*
 
-class SharedActivity : BaseVmActivity<SharedViewModel>() {
+
+class SharedActivity : BaseActivity<ActivitySharedBinding,SharedViewModel>() {
 
     private lateinit var mAdapter: ArticleAdapter
 
@@ -58,16 +58,16 @@ class SharedActivity : BaseVmActivity<SharedViewModel>() {
                     .setPositiveButton(R.string.confirm) { _, _ ->
                         mViewModel.deleteShared(it.data[position].id)
                         it.removeAt(position)
-                        this@SharedActivity.emptyView.isVisible = it.data.isEmpty()
+                        mBinding.emptyView.root.isVisible = it.data.isEmpty()
                     }.show()
                 true
             }
-            recyclerView.adapter = it
+            mBinding.recyclerView.adapter = it
         }
     }
 
     private fun initRefresh() {
-        swipeRefreshLayout.run {
+        mBinding.swipeRefreshLayout.run {
             setColorSchemeResources(R.color.textColorPrimary)
             setProgressBackgroundColorSchemeResource(R.color.bgColorPrimary)
             setOnRefreshListener { mViewModel.refreshArticleList() }
@@ -75,13 +75,15 @@ class SharedActivity : BaseVmActivity<SharedViewModel>() {
     }
 
     private fun initListeners() {
-        btnReload.setOnClickListener {
+
+
+        mBinding.reloadView.btnReload.setOnClickListener {
             mViewModel.refreshArticleList()
         }
-        ivAdd.setOnClickListener {
+        mBinding.ivAdd.setOnClickListener {
             ActivityHelper.startActivity(ShareActivity::class.java)
         }
-        ivBack.setOnClickListener {
+        mBinding.ivBack.setOnClickListener {
             ActivityHelper.finish(SharedActivity::class.java)
         }
     }
@@ -92,26 +94,26 @@ class SharedActivity : BaseVmActivity<SharedViewModel>() {
 
     override fun observe() {
         super.observe()
-        mViewModel.articleList.observe(this@SharedActivity, {
+        mViewModel.articleList.observe(this@SharedActivity) {
             mAdapter.setList(it)
-        })
-        mViewModel.refreshStatus.observe(this@SharedActivity, {
-            swipeRefreshLayout.isRefreshing = it
-        })
-        mViewModel.emptyStatus.observe(this@SharedActivity, {
-            emptyView.isVisible = it
-        })
-        mViewModel.loadMoreStatus.observe(this@SharedActivity, {
+        }
+        mViewModel.refreshStatus.observe(this@SharedActivity) {
+            mBinding.swipeRefreshLayout.isRefreshing = it
+        }
+        mViewModel.emptyStatus.observe(this@SharedActivity) {
+            mBinding.emptyView.root.isVisible = it
+        }
+        mViewModel.loadMoreStatus.observe(this@SharedActivity) {
             mAdapter.loadMoreModule.setLoadMoreStatus(it)
-        })
-        mViewModel.reloadStatus.observe(this@SharedActivity, {
-            reloadView.isVisible = it
-        })
-        Bus.observe<Boolean>(USER_LOGIN_STATE_CHANGED, this, {
+        }
+        mViewModel.reloadStatus.observe(this@SharedActivity) {
+            mBinding.reloadView.root.isVisible = it
+        }
+        Bus.observe<Boolean>(USER_LOGIN_STATE_CHANGED, this) {
             mViewModel.updateListCollectState()
-        })
-        Bus.observe<Pair<Long, Boolean>>(USER_COLLECT_UPDATED, this, {
+        }
+        Bus.observe<Pair<Long, Boolean>>(USER_COLLECT_UPDATED, this) {
             mViewModel.updateItemCollectState(it)
-        })
+        }
     }
 }

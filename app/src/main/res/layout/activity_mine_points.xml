@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:context=".ui.points.mine.MinePointsActivity">
 
-    <FrameLayout
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@color/bgColorPrimary"
             android:elevation="2dp">
 
-        <ImageView
+            <ImageView
                 android:id="@+id/ivBack"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
@@ -25,7 +31,7 @@
                 app:tint="@color/textColorPrimary" />
 
 
-        <TextView
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -34,7 +40,7 @@
                 android:textColor="@color/textColorPrimary"
                 android:textSize="16sp" />
 
-        <ImageView
+            <ImageView
                 android:id="@+id/ivRank"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
@@ -45,31 +51,32 @@
                 android:padding="13dp"
                 android:src="@drawable/ic_graphic_eq_black_24dp"
                 app:tint="@color/textColorPrimary" />
-    </FrameLayout>
+        </FrameLayout>
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipeRefreshLayout"
             android:layout_width="match_parent"
             android:background="@color/bgColorSecondary"
             android:layout_height="match_parent">
 
-        <FrameLayout
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-            <androidx.recyclerview.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     tools:listitem="@layout/item_mine_points"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-            <include
+                <include
                     android:id="@+id/reloadView"
                     layout="@layout/include_reload"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:visibility="gone" />
-        </FrameLayout>
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-</LinearLayout>
+            </FrameLayout>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </LinearLayout>
+</layout>

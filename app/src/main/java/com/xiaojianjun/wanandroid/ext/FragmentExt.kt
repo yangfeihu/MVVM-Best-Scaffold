@@ -5,7 +5,7 @@ import android.net.Uri
 import androidx.fragment.app.Fragment
 
 /**
- * Created by xiaojianjun on 2019-11-21.
+ * Created by yangfeihu on 2019-11-21.
  */
 
 fun Fragment.openInExplorer(link: String?) {

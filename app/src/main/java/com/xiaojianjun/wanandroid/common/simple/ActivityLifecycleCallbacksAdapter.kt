@@ -5,7 +5,7 @@ import android.app.Application
 import android.os.Bundle
 
 /**
- * Created by xiaojianjun on 2019-11-25.
+ * Created by yangfeihu on 2019-11-25.
  */
 class ActivityLifecycleCallbacksAdapter(
     private var onActivityCreated: ((activity: Activity, savedInstanceState: Bundle?) -> Unit)? = null,

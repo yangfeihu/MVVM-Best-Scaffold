@@ -8,43 +8,18 @@ import com.xiaojianjun.wanandroid.common.core.ActivityHelper
 import com.xiaojianjun.wanandroid.model.store.isLogin
 import com.xiaojianjun.wanandroid.ui.login.LoginActivity
 
-abstract class BaseVmActivity<VM : BaseViewModel> : BaseActivity() {
+abstract class BaseVmActivity<VM : BaseViewModel> : CommonActivity() {
 
     protected open lateinit var mViewModel: VM
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initViewModel()
-        observe()
         initView()
         initData()
+        observe()
     }
 
-    /**
-     * 初始化ViewModel
-     */
-    private fun initViewModel() {
-        mViewModel = ViewModelProvider(this).get(viewModelClass())
-    }
-
-
-    /**
-     * 获取ViewModel的class
-     */
-    protected abstract fun viewModelClass(): Class<VM>
-
-    /**
-     * 订阅，LiveData、Bus
-     */
-    open fun observe() {
-        // 登录失效，跳转登录页
-        mViewModel.loginStatusInvalid.observe(this, {
-            if (it) {
-                Bus.post(USER_LOGIN_STATE_CHANGED, false)
-                ActivityHelper.startActivity(LoginActivity::class.java)
-            }
-        })
-    }
 
     /**
      * 数据初始化相关
@@ -58,6 +33,31 @@ abstract class BaseVmActivity<VM : BaseViewModel> : BaseActivity() {
      */
     open fun initData() {
         // Override if need
+    }
+
+    /**
+     * 初始化ViewModel
+     */
+    private fun initViewModel() {
+        mViewModel = ViewModelProvider(this)[viewModelClass()]
+    }
+
+    /**
+     * 获取ViewModel的class
+     */
+    protected abstract fun viewModelClass(): Class<VM>
+
+    /**
+     * 订阅，LiveData、Bus
+     */
+    open fun observe() {
+        // 登录失效，跳转登录页
+        mViewModel.loginStatusInvalid.observe(this ){
+            if (it) {
+                Bus.post(USER_LOGIN_STATE_CHANGED, false)
+                ActivityHelper.startActivity(LoginActivity::class.java)
+            }
+        }
     }
 
     /**

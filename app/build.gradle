@@ -1,0 +1,177 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'kotlin-android'
+    id 'kotlin-parcelize'
+    //id 'kotlin-android-extensions'
+}
+
+android {
+
+    compileSdk 34
+    namespace 'com.xiaojianjun.wanandroid'
+    defaultConfig {
+        applicationId = "com.xiaojianjun.wanandroid"
+        minSdk 24
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary true
+        }
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += [
+                        "room.schemaLocation":"$projectDir/schemas".toString(),
+                        "room.incremental":"true"
+                ]
+            }
+        }
+    }
+
+
+
+    buildTypes {
+        debug {
+            //true：启用混淆,false:不启用
+            minifyEnabled false
+            //是否清理无用资源
+            shrinkResources false
+            //是否启用zipAlign压缩
+            zipAlignEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "boolean", "DEBUG", "true"
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "boolean", "DEBUG", "false"
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlin{
+        jvmToolchain(11)
+    }
+
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(11)
+        }
+    }
+
+    kotlinOptions {
+        jvmTarget = '11'
+    }
+    buildFeatures {
+        //compose true
+        viewBinding true
+        buildConfig = true
+    }
+
+    dataBinding {
+        enabled = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion '1.4.5'
+    }
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+}
+
+dependencies {
+
+    //base
+    implementation 'androidx.core:core-ktx:1.10.1'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.activity:activity-ktx:1.7.2'
+    implementation 'androidx.fragment:fragment-ktx:1.6.0'
+
+    //kotlin
+    implementation platform('org.jetbrains.kotlin:kotlin-bom:1.8.0')
+
+    //material
+    implementation 'com.google.android.material:material:1.9.0'
+
+    //layout
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.coordinatorlayout:coordinatorlayout:1.2.0'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    implementation 'androidx.recyclerview:recyclerview:1.3.0'
+
+    //jetpack ViewModel,LiveData,lifecycle
+    def lifecycle_version = "2.6.1"
+    // ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    // ViewModel utilities for Compose
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version"
+    // LiveData
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    //lifecycle
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
+
+    //jetpack room
+    def room_version = "2.5.2"
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    // To use Kotlin annotation processing tool (kapt)
+    kapt "androidx.room:room-compiler:$room_version"
+
+
+    //network
+    implementation 'com.squareup.okhttp3:okhttp:4.11.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.11.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-moshi:2.9.0'
+    implementation 'com.squareup.moshi:moshi:1.14.0'
+    implementation 'com.squareup.moshi:moshi-kotlin:1.14.0'
+
+
+
+    //coil-kt(图片加载)   https://github.com/coil-kt/coil
+    def coil_kt_version = "2.4.0"
+    implementation "io.coil-kt:coil:$coil_kt_version"
+    implementation "io.coil-kt:coil-gif:$coil_kt_version"
+    implementation "io.coil-kt:coil-svg:$coil_kt_version"
+    implementation "io.coil-kt:coil-video:$coil_kt_version"
+
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.6'
+    implementation 'com.hyman:flowlayout-lib:1.1.2'
+    implementation 'com.just.agentweb:agentweb:4.1.4'
+    implementation 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
+
+    implementation 'io.github.youth5201314:banner:2.2.2'
+
+    //eventBus    https://github.com/codyer/ElegantBus
+    implementation "com.github.codyer.ElegantBus:core:3.3.2"
+
+//    jetpack compose
+//    implementation 'androidx.activity:activity-compose:1.7.2'
+//    implementation platform('androidx.compose:compose-bom:2022.10.00')
+//    implementation 'androidx.compose.ui:ui'
+//    implementation 'androidx.compose.ui:ui-graphics'
+//    implementation 'androidx.compose.ui:ui-tooling-preview'
+//    implementation 'androidx.compose.material3:material3'
+
+
+
+//test
+//    testImplementation 'junit:junit:4.13.2'
+//    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+//    androidTestImplementation platform('androidx.compose:compose-bom:2022.10.00')
+//    androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
+//    debugImplementation 'androidx.compose.ui:ui-tooling'
+//    debugImplementation 'androidx.compose.ui:ui-test-manifest'
+}

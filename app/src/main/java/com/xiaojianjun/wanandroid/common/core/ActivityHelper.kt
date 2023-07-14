@@ -13,7 +13,7 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 /**
- * Created by xiaojianjun on 2019-10-17.
+ * Created by yangfeihu on 2019-10-17.
  */
 object ActivityHelper {
 

@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 
 /**
- * Created by xiaojianjun on 2019-12-08.
+ * Created by yangfeihu on 2019-12-08.
  */
 fun isNightMode(context: Context): Boolean {
     val mode = context.resources.configuration.uiMode and UI_MODE_NIGHT_MASK

@@ -2,13 +2,13 @@ package com.xiaojianjun.wanandroid.ui.points.rank
 
 import androidx.core.view.isVisible
 import com.xiaojianjun.wanandroid.R
-import com.xiaojianjun.wanandroid.base.BaseVmActivity
+import com.xiaojianjun.wanandroid.base.BaseActivity
 import com.xiaojianjun.wanandroid.common.core.ActivityHelper
 import com.xiaojianjun.wanandroid.common.loadmore.setLoadMoreStatus
-import kotlinx.android.synthetic.main.activity_points_rank.*
-import kotlinx.android.synthetic.main.include_reload.*
+import com.xiaojianjun.wanandroid.databinding.ActivityPointsRankBinding
 
-class PointsRankActivity : BaseVmActivity<PointsRankViewModel>() {
+
+class PointsRankActivity : BaseActivity<ActivityPointsRankBinding,PointsRankViewModel>() {
 
     private lateinit var mAdapter: PointsRankAdapter
 
@@ -19,16 +19,16 @@ class PointsRankActivity : BaseVmActivity<PointsRankViewModel>() {
     override fun initView() {
         mAdapter = PointsRankAdapter().also {
             it.loadMoreModule.setOnLoadMoreListener { mViewModel.loadMoreData() }
-            recyclerView.adapter = it
+            mBinding.recyclerView.adapter = it
         }
-        swipeRefreshLayout.run {
+        mBinding.swipeRefreshLayout.run {
             setColorSchemeResources(R.color.textColorPrimary)
             setProgressBackgroundColorSchemeResource(R.color.bgColorPrimary)
             setOnRefreshListener { mViewModel.refreshData() }
         }
-        ivBack.setOnClickListener { ActivityHelper.finish(PointsRankActivity::class.java) }
-        tvTitle.setOnClickListener { recyclerView.smoothScrollToPosition(0) }
-        btnReload.setOnClickListener { mViewModel.refreshData() }
+        mBinding.ivBack.setOnClickListener { ActivityHelper.finish(PointsRankActivity::class.java) }
+        mBinding.tvTitle.setOnClickListener { mBinding.recyclerView.smoothScrollToPosition(0) }
+        mBinding.reloadView.btnReload.setOnClickListener { mViewModel.refreshData() }
     }
 
     override fun initData() {
@@ -42,13 +42,13 @@ class PointsRankActivity : BaseVmActivity<PointsRankViewModel>() {
                 mAdapter.setList(it)
             })
             refreshStatus.observe(this@PointsRankActivity, {
-                swipeRefreshLayout.isRefreshing = it
+                mBinding.swipeRefreshLayout.isRefreshing = it
             })
             loadMoreStatus.observe(this@PointsRankActivity, {
                 mAdapter.loadMoreModule.setLoadMoreStatus(it)
             })
             reloadStatus.observe(this@PointsRankActivity, {
-                reloadView.isVisible = it
+                mBinding.reloadView.root.isVisible = it
             })
         }
     }

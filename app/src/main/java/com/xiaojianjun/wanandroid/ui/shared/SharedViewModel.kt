@@ -12,7 +12,7 @@ import com.xiaojianjun.wanandroid.model.store.isLogin
 import com.xiaojianjun.wanandroid.ui.common.CollectRepository
 
 /**
- * Created by xiaojianjun on 2019-12-03.
+ * Created by yangfeihu on 2019-12-03.
  */
 class SharedViewModel : BaseViewModel() {
 

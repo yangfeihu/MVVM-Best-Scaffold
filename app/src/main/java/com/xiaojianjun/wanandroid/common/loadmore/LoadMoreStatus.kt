@@ -1,7 +1,7 @@
 package com.xiaojianjun.wanandroid.common.loadmore
 
 /**
- * Created by xiaojianjun on 2019-11-08.
+ * Created by yangfeihu on 2019-11-08.
  */
 enum class LoadMoreStatus {
     LOADING,

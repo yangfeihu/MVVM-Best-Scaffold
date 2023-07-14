@@ -4,15 +4,16 @@ import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xiaojianjun.wanandroid.R
-import com.xiaojianjun.wanandroid.base.BaseVmFragment
+import com.xiaojianjun.wanandroid.base.BaseFragment
 import com.xiaojianjun.wanandroid.common.ScrollToTop
 import com.xiaojianjun.wanandroid.common.core.ActivityHelper
+import com.xiaojianjun.wanandroid.databinding.FragmentNavigationBinding
 import com.xiaojianjun.wanandroid.ui.detail.DetailActivity
 import com.xiaojianjun.wanandroid.ui.main.MainActivity
-import kotlinx.android.synthetic.main.fragment_navigation.*
-import kotlinx.android.synthetic.main.include_reload.*
 
-class NavigationFragment : BaseVmFragment<NavigationViewModel>(), ScrollToTop {
+
+
+class NavigationFragment : BaseFragment<FragmentNavigationBinding,NavigationViewModel>(), ScrollToTop {
 
     private lateinit var mAdapter: NavigationAdapter
     private var currentPosition = 0
@@ -26,7 +27,8 @@ class NavigationFragment : BaseVmFragment<NavigationViewModel>(), ScrollToTop {
     override fun viewModelClass() = NavigationViewModel::class.java
 
     override fun initView() {
-        swipeRefreshLayout.run {
+
+        mBinding.swipeRefreshLayout.run {
             setColorSchemeResources(R.color.textColorPrimary)
             setProgressBackgroundColorSchemeResource(R.color.bgColorPrimary)
             setOnRefreshListener { mViewModel.getNavigations() }
@@ -38,30 +40,30 @@ class NavigationFragment : BaseVmFragment<NavigationViewModel>(), ScrollToTop {
                     mapOf(DetailActivity.PARAM_ARTICLE to article)
                 )
             }
-            recyclerView.adapter = it
+            mBinding.recyclerView.adapter = it
         }
-        btnReload.setOnClickListener {
+        mBinding.reloadView.btnReload.setOnClickListener {
             mViewModel.getNavigations()
         }
-        recyclerView.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
+        mBinding.recyclerView.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
             if (activity is MainActivity && scrollY != oldScrollY) {
                 (activity as MainActivity).animateBottomNavigationView(scrollY < oldScrollY)
             }
             if (scrollY < oldScrollY) {
-                tvFloatTitle.text = mAdapter.data[currentPosition].name
+                mBinding.tvFloatTitle.text = mAdapter.data[currentPosition].name
             }
-            val lm = recyclerView.layoutManager as LinearLayoutManager
+            val lm =  mBinding.recyclerView.layoutManager as LinearLayoutManager
             val nextView = lm.findViewByPosition(currentPosition + 1)
             if (nextView != null) {
-                tvFloatTitle.y = if (nextView.top < tvFloatTitle.measuredHeight) {
-                    (nextView.top - tvFloatTitle.measuredHeight).toFloat()
+                mBinding.tvFloatTitle.y = if (nextView.top <  mBinding.tvFloatTitle.measuredHeight) {
+                    (nextView.top -  mBinding.tvFloatTitle.measuredHeight).toFloat()
                 } else {
                     0f
                 }
             }
             currentPosition = lm.findFirstVisibleItemPosition()
             if (scrollY > oldScrollY) {
-                tvFloatTitle.text = mAdapter.data[currentPosition].name
+                mBinding.tvFloatTitle.text = mAdapter.data[currentPosition].name
             }
         }
     }
@@ -69,17 +71,17 @@ class NavigationFragment : BaseVmFragment<NavigationViewModel>(), ScrollToTop {
     override fun observe() {
         super.observe()
         mViewModel.run {
-            navigations.observe(viewLifecycleOwner, {
-                tvFloatTitle.isGone = it.isEmpty()
-                tvFloatTitle.text = it[0].name
+            navigations.observe(viewLifecycleOwner) {
+                mBinding.tvFloatTitle.isGone = it.isEmpty()
+                mBinding.tvFloatTitle.text = it[0].name
                 mAdapter.setList(it)
-            })
-            refreshStatus.observe(viewLifecycleOwner, {
-                swipeRefreshLayout.isRefreshing = it
-            })
-            reloadStatus.observe(viewLifecycleOwner, {
-                reloadView.isVisible = it
-            })
+            }
+            refreshStatus.observe(viewLifecycleOwner) {
+                mBinding.swipeRefreshLayout.isRefreshing = it
+            }
+            reloadStatus.observe(viewLifecycleOwner) {
+                mBinding.reloadView.root.isVisible = it
+            }
         }
     }
 
@@ -88,6 +90,6 @@ class NavigationFragment : BaseVmFragment<NavigationViewModel>(), ScrollToTop {
     }
 
     override fun scrollToTop() {
-        recyclerView?.smoothScrollToPosition(0)
+        mBinding.recyclerView.smoothScrollToPosition(0)
     }
 }

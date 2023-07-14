@@ -1,14 +1,15 @@
 package com.xiaojianjun.wanandroid.ui.main.system.category
 
+import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.xiaojianjun.wanandroid.R
 import com.xiaojianjun.wanandroid.ext.htmlToSpanned
 import com.xiaojianjun.wanandroid.model.bean.Category
-import kotlinx.android.synthetic.main.item_system_category.view.*
+import com.zhy.view.flowlayout.TagFlowLayout
 
 /**
- * Created by xiaojianjun on 2019-11-17.
+ * Created by yangfeihu on 2019-11-17.
  */
 class SystemCategoryAdapter(
     layoutResId: Int = R.layout.item_system_category,
@@ -20,6 +21,8 @@ class SystemCategoryAdapter(
 
     override fun convert(holder: BaseViewHolder, item: Category) {
         holder.itemView.run {
+            val title = findViewById<TextView>(R.id.title)
+            val tagFlowLayout = findViewById<TagFlowLayout>(R.id.tagFlowLayout)
             title.text = item.name.htmlToSpanned()
             tagFlowLayout.adapter = ItemTagAdapter(item.children)
             if (checked.first == holder.adapterPosition) {

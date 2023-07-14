@@ -11,22 +11,22 @@ import com.just.agentweb.DefaultWebClient
 import com.just.agentweb.WebChromeClient
 import com.just.agentweb.WebViewClient
 import com.xiaojianjun.wanandroid.R
-import com.xiaojianjun.wanandroid.base.BaseVmActivity
+import com.xiaojianjun.wanandroid.base.BaseActivity
 import com.xiaojianjun.wanandroid.common.bus.Bus
 import com.xiaojianjun.wanandroid.common.bus.USER_COLLECT_UPDATED
 import com.xiaojianjun.wanandroid.common.bus.USER_LOGIN_STATE_CHANGED
 import com.xiaojianjun.wanandroid.common.core.ActivityHelper
 import com.xiaojianjun.wanandroid.common.core.Logger
 import com.xiaojianjun.wanandroid.common.core.whiteHostList
+import com.xiaojianjun.wanandroid.databinding.ActivityDetailBinding
 import com.xiaojianjun.wanandroid.ext.htmlToSpanned
 import com.xiaojianjun.wanandroid.ext.setBrightness
 import com.xiaojianjun.wanandroid.model.bean.Article
 import com.xiaojianjun.wanandroid.model.store.SettingsStore
 import com.xiaojianjun.wanandroid.util.isNightMode
-import kotlinx.android.synthetic.main.activity_detail.*
 
 
-class DetailActivity : BaseVmActivity<DetailViewModel>() {
+class DetailActivity : BaseActivity<ActivityDetailBinding,DetailViewModel>() {
 
     companion object {
         const val PARAM_ARTICLE = "param_article"
@@ -46,10 +46,10 @@ class DetailActivity : BaseVmActivity<DetailViewModel>() {
 
         setDetailTitle(article.title.htmlToSpanned())
 
-        ivBack.setOnClickListener {
+        mBinding.ivBack.setOnClickListener {
             ActivityHelper.finish(DetailActivity::class.java)
         }
-        ivMore.setOnClickListener {
+        mBinding.ivMore.setOnClickListener {
             ActionFragment.newInstance(article).show(supportFragmentManager)
         }
 
@@ -63,7 +63,7 @@ class DetailActivity : BaseVmActivity<DetailViewModel>() {
             mViewModel.saveReadHistory(article)
         }
         agentWeb = AgentWeb.with(this)
-            .setAgentWebParent(webContainer, LayoutParams(-1, -1))
+            .setAgentWebParent(mBinding.webContainer, LayoutParams(-1, -1))
             .useDefaultIndicator(getColor(R.color.textColorPrimary), 2)
             .interceptUnkownUrl()
             .setMainFrameErrorView(R.layout.include_reload, R.id.btnReload)
@@ -188,8 +188,8 @@ class DetailActivity : BaseVmActivity<DetailViewModel>() {
      * 设置标题
      */
     private fun setDetailTitle(title: CharSequence?, isSelected: Boolean = false) {
-        tvTitle.text = title
-        tvTitle.postDelayed({ tvTitle.isSelected = isSelected }, 500)
+        mBinding.tvTitle.text = title
+        mBinding.tvTitle.postDelayed({ mBinding.tvTitle.isSelected = isSelected }, 500)
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
@@ -230,12 +230,12 @@ class DetailActivity : BaseVmActivity<DetailViewModel>() {
 
     override fun observe() {
         super.observe()
-        mViewModel.collect.observe(this, {
+        mViewModel.collect.observe(this) {
             onCollectStatusChanged(it)
-        })
-        Bus.observe<Boolean>(USER_LOGIN_STATE_CHANGED, this, {
+        }
+        Bus.observe<Boolean>(USER_LOGIN_STATE_CHANGED, this) {
             mViewModel.updateCollectStatus(article.id)
-        })
+        }
     }
 
     private fun onCollectStatusChanged(collect: Boolean) {

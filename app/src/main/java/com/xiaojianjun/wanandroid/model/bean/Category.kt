@@ -5,7 +5,7 @@ import androidx.annotation.Keep
 import kotlinx.android.parcel.Parcelize
 
 /**
- * Created by xiaojianjun on 2019-11-12.
+ * Created by yangfeihu on 2019-11-12.
  */
 @Keep
 @Parcelize

@@ -7,7 +7,7 @@ import androidx.annotation.Keep
 import com.xiaojianjun.wanandroid.util.getStatusBarHeight
 
 /**
- * Created by xiaojianjun on 2020/5/6.
+ * Created by yangfeihu on 2020/5/6.
  * 状态栏占位控件，重写高度为状态栏高度
  */
 @Keep

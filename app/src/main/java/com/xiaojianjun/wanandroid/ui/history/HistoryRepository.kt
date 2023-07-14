@@ -4,7 +4,7 @@ import com.xiaojianjun.wanandroid.model.bean.Article
 import com.xiaojianjun.wanandroid.model.room.RoomHelper
 
 /**
- * Created by xiaojianjun on 2019-11-28.
+ * Created by yangfeihu on 2019-11-28.
  */
 class HistoryRepository {
 

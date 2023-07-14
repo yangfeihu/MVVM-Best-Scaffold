@@ -6,7 +6,7 @@ import androidx.room.Entity
 import kotlinx.android.parcel.Parcelize
 
 /**
- * Created by xiaojianjun on 2019-11-07.
+ * Created by yangfeihu on 2019-11-07.
  */
 @Keep
 @Parcelize

@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
 
 /**
- * Created by xiaojianjun on 2019-09-18.
+ * Created by yangfeihu on 2019-09-18.
  */
 @Keep
 @Parcelize

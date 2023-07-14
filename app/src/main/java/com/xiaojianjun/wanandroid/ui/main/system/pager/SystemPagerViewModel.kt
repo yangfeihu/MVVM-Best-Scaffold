@@ -13,7 +13,7 @@ import com.xiaojianjun.wanandroid.ui.common.CollectRepository
 import kotlinx.coroutines.Job
 
 /**
- * Created by xiaojianjun on 2019-11-16.
+ * Created by yangfeihu on 2019-11-16.
  */
 class SystemPagerViewModel : BaseViewModel() {
 

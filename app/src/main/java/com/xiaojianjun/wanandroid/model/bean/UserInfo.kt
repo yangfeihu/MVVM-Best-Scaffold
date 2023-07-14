@@ -3,7 +3,7 @@ package com.xiaojianjun.wanandroid.model.bean
 import androidx.annotation.Keep
 
 /**
- * Created by xiaojianjun on 2019-11-22.
+ * Created by yangfeihu on 2019-11-22.
  */
 @Keep
 data class UserInfo(

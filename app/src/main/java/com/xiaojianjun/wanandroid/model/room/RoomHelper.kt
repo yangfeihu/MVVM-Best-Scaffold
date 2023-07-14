@@ -5,7 +5,7 @@ import com.xiaojianjun.wanandroid.App
 import com.xiaojianjun.wanandroid.model.bean.Article
 
 /**
- * Created by xiaojianjun on 2019-12-05.
+ * Created by yangfeihu on 2019-12-05.
  */
 object RoomHelper {
 

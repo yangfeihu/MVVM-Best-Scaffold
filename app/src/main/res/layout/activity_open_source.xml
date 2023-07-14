@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:context=".ui.opensource.OpenSourceActivity">
 
-    <FrameLayout
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@color/bgColorPrimary"
             android:elevation="2dp">
 
-        <ImageView
+            <ImageView
                 android:id="@+id/ivBack"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
@@ -25,7 +31,7 @@
                 app:tint="@color/textColorPrimary" />
 
 
-        <TextView
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -33,9 +39,9 @@
                 android:text="@string/my_open_source"
                 android:textColor="@color/textColorPrimary"
                 android:textSize="16sp" />
-    </FrameLayout>
+        </FrameLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:background="@color/bgColorPrimary"
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
@@ -43,4 +49,5 @@
             tools:listitem="@layout/item_open_source"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-</LinearLayout>
+    </LinearLayout>
+</layout>

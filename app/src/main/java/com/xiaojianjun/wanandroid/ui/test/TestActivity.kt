@@ -3,14 +3,15 @@ package com.xiaojianjun.wanandroid.ui.test
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
 import com.xiaojianjun.wanandroid.R
-import com.xiaojianjun.wanandroid.base.BaseVmActivity
+import com.xiaojianjun.wanandroid.base.BaseActivity
+import com.xiaojianjun.wanandroid.databinding.ActivityTestBinding
 import com.xiaojianjun.wanandroid.ext.showToast
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 
-class TestActivity : BaseVmActivity<TestViewModel>() {
+class TestActivity : BaseActivity<ActivityTestBinding,TestViewModel>() {
 
     override fun layoutRes() = R.layout.activity_test
 

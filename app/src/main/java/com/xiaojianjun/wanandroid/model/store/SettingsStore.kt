@@ -5,7 +5,7 @@ import com.xiaojianjun.wanandroid.common.core.getSpValue
 import com.xiaojianjun.wanandroid.common.core.putSpValue
 
 /**
- * Created by xiaojianjun on 2019-12-09.
+ * Created by yangfeihu on 2019-12-09.
  */
 object SettingsStore {
 

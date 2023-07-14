@@ -4,21 +4,33 @@ import android.os.Bundle
 import android.view.inputmethod.EditorInfo
 import androidx.core.view.isGone
 import androidx.core.widget.addTextChangedListener
+import androidx.databinding.DataBindingUtil
 import com.xiaojianjun.wanandroid.R
-import com.xiaojianjun.wanandroid.base.BaseActivity
+import com.xiaojianjun.wanandroid.base.CommonActivity
 import com.xiaojianjun.wanandroid.common.core.ActivityHelper
+import com.xiaojianjun.wanandroid.databinding.ActivitySearchBinding
 import com.xiaojianjun.wanandroid.ext.hideSoftInput
 import com.xiaojianjun.wanandroid.ui.search.history.SearchHistoryFragment
 import com.xiaojianjun.wanandroid.ui.search.result.SearchResultFragment
-import kotlinx.android.synthetic.main.activity_search.*
 
-class SearchActivity : BaseActivity() {
+class SearchActivity : CommonActivity() {
+
+
 
     companion object {
         const val SEARCH_WORDS = "search_words"
     }
 
     override fun layoutRes() = R.layout.activity_search
+
+
+    lateinit var mBinding: ActivitySearchBinding
+    override fun initDataViewBinding(): Boolean {
+        mBinding = DataBindingUtil.setContentView(this, layoutRes())
+        //binding.setVariable(BR.viewModel, mViewModel)
+        mBinding.lifecycleOwner = this
+        return true;
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +48,7 @@ class SearchActivity : BaseActivity() {
             .hide(resultFragment)
             .commit()
 
-        ivBack.setOnClickListener {
+        mBinding.ivBack.setOnClickListener {
             if (resultFragment.isVisible) {
                 supportFragmentManager
                     .beginTransaction()
@@ -46,8 +58,8 @@ class SearchActivity : BaseActivity() {
                 ActivityHelper.finish(SearchActivity::class.java)
             }
         }
-        ivDone.setOnClickListener {
-            val searchWords = acetInput.text.toString()
+        mBinding.ivDone.setOnClickListener {
+            val searchWords = mBinding.acetInput.text.toString()
             if (searchWords.isEmpty()) return@setOnClickListener
             it.hideSoftInput()
             historyFragment.addSearchHistory(searchWords)
@@ -57,33 +69,33 @@ class SearchActivity : BaseActivity() {
                 .show(resultFragment)
                 .commit()
         }
-        acetInput.run {
+        mBinding.acetInput.run {
             addTextChangedListener(afterTextChanged = {
-                ivClearSearch.isGone = it.isNullOrEmpty()
+                mBinding.ivClearSearch.isGone = it.isNullOrEmpty()
             })
             setOnEditorActionListener { _, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    ivDone.performClick()
+                    mBinding.ivDone.performClick()
                     true
                 } else {
                     false
                 }
             }
         }
-        ivClearSearch.setOnClickListener { acetInput.setText("") }
+        mBinding.ivClearSearch.setOnClickListener {  mBinding.acetInput.setText("") }
 
         // 跳转搜索
         intent.getStringExtra(SEARCH_WORDS)?.let { window.decorView.post { fillSearchInput(it) } }
     }
 
     fun fillSearchInput(keywords: String) {
-        acetInput.setText(keywords)
-        acetInput.setSelection(keywords.length)
-        ivDone.performClick()
+        mBinding.acetInput.setText(keywords)
+        mBinding.acetInput.setSelection(keywords.length)
+        mBinding.ivDone.performClick()
     }
 
     override fun onBackPressed() {
-        ivBack.performClick()
+        mBinding.ivBack.performClick()
     }
 
 }

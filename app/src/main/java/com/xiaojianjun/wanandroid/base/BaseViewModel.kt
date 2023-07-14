@@ -23,7 +23,7 @@ typealias Error = suspend (Exception) -> Unit
 typealias Cancel = suspend (Exception) -> Unit
 
 /**
- * Created by xiaojianjun on 2019-09-20.
+ * Created by yangfeihu on 2019-09-20.
  */
 open class BaseViewModel : ViewModel() {
 
@@ -45,6 +45,7 @@ open class BaseViewModel : ViewModel() {
     ): Job {
         return viewModelScope.launch {
             try {
+                //block(this);
                 block.invoke(this)
             } catch (e: Exception) {
                 when (e) {

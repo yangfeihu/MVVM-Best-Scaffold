@@ -4,15 +4,15 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.xiaojianjun.wanandroid.R
-import kotlinx.android.synthetic.main.item_search_history.view.*
 
 
 /**
- * Created by xiaojianjun on 2019-11-28.
+ * Created by yangfeihu on 2019-11-28.
  */
 class SearchHistoryAdapter(
     private var context: Context,
@@ -34,13 +34,17 @@ class SearchHistoryAdapter(
 
     override fun onBindViewHolder(holder: SearchHistoryHolder, position: Int) {
         holder.itemView.run {
-            tvLabel.text = getItem(position)
+            this.findViewById<TextView>(R.id.tvLabel).text = getItem(position);
+
+
             setOnClickListener {
                 onItemClickListener?.invoke(holder.adapterPosition)
             }
-            ivDelete.setOnClickListener {
+
+            this.findViewById<View>(R.id.ivDelete).setOnClickListener {
                 onDeleteClickListener?.invoke(holder.adapterPosition)
             }
+
         }
     }
 

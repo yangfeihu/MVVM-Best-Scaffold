@@ -1,14 +1,18 @@
 package com.xiaojianjun.wanandroid.ui.main.home
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.google.android.material.appbar.AppBarLayout
 import com.xiaojianjun.wanandroid.R
-import com.xiaojianjun.wanandroid.base.BaseFragment
+import com.xiaojianjun.wanandroid.base.CommonFragment
 import com.xiaojianjun.wanandroid.common.ScrollToTop
 import com.xiaojianjun.wanandroid.common.adapter.SimpleFragmentPagerAdapter
 import com.xiaojianjun.wanandroid.common.core.ActivityHelper
+import com.xiaojianjun.wanandroid.databinding.FragmentHomeBinding
 import com.xiaojianjun.wanandroid.ui.main.MainActivity
 import com.xiaojianjun.wanandroid.ui.main.home.latest.LatestFragment
 import com.xiaojianjun.wanandroid.ui.main.home.plaza.PlazaFragment
@@ -16,18 +20,24 @@ import com.xiaojianjun.wanandroid.ui.main.home.popular.PopularFragment
 import com.xiaojianjun.wanandroid.ui.main.home.project.ProjectFragment
 import com.xiaojianjun.wanandroid.ui.main.home.wechat.WechatFragment
 import com.xiaojianjun.wanandroid.ui.search.SearchActivity
-import kotlinx.android.synthetic.main.fragment_home.*
 
-class HomeFragment : BaseFragment(), ScrollToTop {
+
+class HomeFragment : CommonFragment(), ScrollToTop {
 
     private lateinit var fragments: List<Fragment>
     private var currentOffset = 0
-
+    lateinit var mBinding: FragmentHomeBinding
     companion object {
         fun newInstance() = HomeFragment()
     }
 
     override fun layoutRes() = R.layout.fragment_home
+
+
+    override fun initDataViewBinding(inflater: LayoutInflater, container: ViewGroup?): View? {
+        mBinding = DataBindingUtil.inflate(inflater,layoutRes(), container, false)
+        return mBinding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -48,26 +58,26 @@ class HomeFragment : BaseFragment(), ScrollToTop {
             getString(R.string.project_category),
             getString(R.string.wechat_public)
         )
-        viewPager.adapter = SimpleFragmentPagerAdapter(
+        mBinding.viewPager.adapter = SimpleFragmentPagerAdapter(
             fm = childFragmentManager,
             fragments = fragments,
             titles = titles
         )
-        viewPager.offscreenPageLimit = fragments.size
-        tabLayout.setupWithViewPager(viewPager)
+        mBinding.viewPager.offscreenPageLimit = fragments.size
+        mBinding.tabLayout.setupWithViewPager(mBinding.viewPager)
 
-        appBarLayout.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { _, offset ->
+        mBinding.appBarLayout.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { _, offset ->
             if (activity is MainActivity && this.currentOffset != offset) {
                 (activity as MainActivity).animateBottomNavigationView(offset > currentOffset)
                 currentOffset = offset
             }
         })
-        llSearch.setOnClickListener { ActivityHelper.startActivity(SearchActivity::class.java) }
+        mBinding.llSearch.setOnClickListener { ActivityHelper.startActivity(SearchActivity::class.java) }
     }
 
     override fun scrollToTop() {
         if (!this::fragments.isInitialized) return
-        val currentFragment = fragments[viewPager.currentItem]
+        val currentFragment = fragments[mBinding.viewPager.currentItem]
         if (currentFragment is ScrollToTop && currentFragment.isVisible) {
             currentFragment.scrollToTop()
         }

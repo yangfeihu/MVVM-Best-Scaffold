@@ -7,7 +7,7 @@ import com.xiaojianjun.wanandroid.common.core.putSpValue
 
 
 /**
- * Created by xiaojianjun on 2019-11-28.
+ * Created by yangfeihu on 2019-11-28.
  */
 object SearchHistoryStore {
 

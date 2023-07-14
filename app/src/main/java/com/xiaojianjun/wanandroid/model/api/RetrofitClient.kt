@@ -13,7 +13,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
 
 /**
- * Created by xiaojianjun on 2019-09-18.
+ * Created by yangfeihu on 2019-09-18.
  * Retrofit网络请求工具
  */
 object RetrofitClient {

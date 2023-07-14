@@ -3,10 +3,10 @@ package com.xiaojianjun.wanandroid.model.bean
 import androidx.annotation.Keep
 
 /**
- * Created by xiaojianjun on 2019-11-16.
+ * Created by yangfeihu on 2019-11-16.
  */
 @Keep
-data class Banner(
+data class BannerData(
     val desc: String,
     val id: Int,
     val imagePath: String,

@@ -3,7 +3,7 @@ package com.xiaojianjun.wanandroid.model.bean
 import androidx.annotation.Keep
 
 /**
- * Created by xiaojianjun on 2019-11-07.
+ * Created by yangfeihu on 2019-11-07.
  */
 @Keep
 data class Pagination<T>(

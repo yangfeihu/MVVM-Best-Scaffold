@@ -9,7 +9,7 @@ import com.xiaojianjun.wanandroid.common.core.ActivityHelper
 import com.xiaojianjun.wanandroid.model.store.isLogin
 import com.xiaojianjun.wanandroid.ui.login.LoginActivity
 
-abstract class BaseVmFragment<VM : BaseViewModel> : BaseFragment() {
+abstract class BaseVmFragment<VM : BaseViewModel> : CommonFragment() {
 
     protected lateinit var mViewModel: VM
     private var lazyLoaded = false
@@ -22,6 +22,7 @@ abstract class BaseVmFragment<VM : BaseViewModel> : BaseFragment() {
         initData()
     }
 
+
     override fun onResume() {
         super.onResume()
         // 实现懒加载
@@ -30,6 +31,8 @@ abstract class BaseVmFragment<VM : BaseViewModel> : BaseFragment() {
             lazyLoaded = true
         }
     }
+
+
 
     /**
      * 初始化ViewModel
@@ -48,27 +51,14 @@ abstract class BaseVmFragment<VM : BaseViewModel> : BaseFragment() {
      */
     open fun observe() {
         // 登录失效，跳转登录页
-        mViewModel.loginStatusInvalid.observe(viewLifecycleOwner, {
+        mViewModel.loginStatusInvalid.observe(viewLifecycleOwner) {
             if (it) {
-                Bus.post(USER_LOGIN_STATE_CHANGED, false)
+                 Bus.post(USER_LOGIN_STATE_CHANGED, false)
                 ActivityHelper.startActivity(LoginActivity::class.java)
             }
-        })
+        }
     }
 
-    /**
-     * View初始化相关
-     */
-    open fun initView() {
-        // Override if need
-    }
-
-    /**
-     * 数据初始化相关
-     */
-    open fun initData() {
-        // Override if need
-    }
 
     /**
      * 懒加载数据
@@ -89,6 +79,20 @@ abstract class BaseVmFragment<VM : BaseViewModel> : BaseFragment() {
             ActivityHelper.startActivity(LoginActivity::class.java)
             false
         }
+    }
+
+    /**
+     * View初始化相关
+     */
+    open fun initView() {
+        // Override if need
+    }
+
+    /**
+     * 数据初始化相关
+     */
+    open fun initData() {
+        // Override if need
     }
 
 }

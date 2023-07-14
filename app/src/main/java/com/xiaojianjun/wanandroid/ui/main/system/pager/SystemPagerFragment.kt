@@ -4,25 +4,25 @@ import android.os.Bundle
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xiaojianjun.wanandroid.R
-import com.xiaojianjun.wanandroid.base.BaseVmFragment
+import com.xiaojianjun.wanandroid.base.BaseFragment
 import com.xiaojianjun.wanandroid.common.ScrollToTop
 import com.xiaojianjun.wanandroid.common.bus.Bus
 import com.xiaojianjun.wanandroid.common.bus.USER_COLLECT_UPDATED
 import com.xiaojianjun.wanandroid.common.bus.USER_LOGIN_STATE_CHANGED
 import com.xiaojianjun.wanandroid.common.core.ActivityHelper
 import com.xiaojianjun.wanandroid.common.loadmore.setLoadMoreStatus
+import com.xiaojianjun.wanandroid.databinding.FragmentSystemPagerBinding
 import com.xiaojianjun.wanandroid.ext.dpToPx
 import com.xiaojianjun.wanandroid.model.bean.Category
 import com.xiaojianjun.wanandroid.ui.detail.DetailActivity
 import com.xiaojianjun.wanandroid.ui.main.home.CategoryAdapter
 import com.xiaojianjun.wanandroid.ui.main.home.SimpleArticleAdapter
-import kotlinx.android.synthetic.main.fragment_system_pager.*
-import kotlinx.android.synthetic.main.include_reload.*
+
 
 /**
- * Created by xiaojianjun on 2019-11-16.
+ * Created by yangfeihu on 2019-11-16.
  */
-class SystemPagerFragment : BaseVmFragment<SystemPagerViewModel>(), ScrollToTop {
+class SystemPagerFragment : BaseFragment<FragmentSystemPagerBinding,SystemPagerViewModel>(), ScrollToTop {
 
     companion object {
 
@@ -57,7 +57,7 @@ class SystemPagerFragment : BaseVmFragment<SystemPagerViewModel>(), ScrollToTop 
     }
 
     private fun initRefresh() {
-        swipeRefreshLayout.run {
+        mBinding.swipeRefreshLayout.run {
             setColorSchemeResources(R.color.textColorPrimary)
             setProgressBackgroundColorSchemeResource(R.color.bgColorPrimary)
             setOnRefreshListener {
@@ -73,7 +73,7 @@ class SystemPagerFragment : BaseVmFragment<SystemPagerViewModel>(), ScrollToTop 
                 checkedPosition = position
                 mViewModel.refreshArticleList(categoryList[checkedPosition].id)
             }
-            rvCategory.adapter = it
+            mBinding.rvCategory.adapter = it
         }
     }
 
@@ -100,36 +100,36 @@ class SystemPagerFragment : BaseVmFragment<SystemPagerViewModel>(), ScrollToTop 
                     }
                 }
             }
-            recyclerView.adapter = it
+            mBinding.recyclerView.adapter = it
         }
     }
 
     private fun initListeners() {
-        btnReload.setOnClickListener {
+        mBinding.reloadView.btnReload.setOnClickListener {
             mViewModel.refreshArticleList(categoryList[checkedPosition].id)
         }
     }
 
     override fun observe() {
         super.observe()
-        mViewModel.articleList.observe(viewLifecycleOwner, {
+        mViewModel.articleList.observe(viewLifecycleOwner) {
             mAdapter.setList(it)
-        })
-        mViewModel.refreshStatus.observe(viewLifecycleOwner, {
-            swipeRefreshLayout.isRefreshing = it
-        })
-        mViewModel.loadMoreStatus.observe(viewLifecycleOwner, {
+        }
+        mViewModel.refreshStatus.observe(viewLifecycleOwner) {
+            mBinding.swipeRefreshLayout.isRefreshing = it
+        }
+        mViewModel.loadMoreStatus.observe(viewLifecycleOwner) {
             mAdapter.loadMoreModule.setLoadMoreStatus(it)
-        })
-        mViewModel.reloadStatus.observe(viewLifecycleOwner, {
-            reloadView.isVisible = it
-        })
-        Bus.observe<Boolean>(USER_LOGIN_STATE_CHANGED, viewLifecycleOwner, {
+        }
+        mViewModel.reloadStatus.observe(viewLifecycleOwner) {
+            mBinding.reloadView.root.isVisible = it
+        }
+        Bus.observe<Boolean>(USER_LOGIN_STATE_CHANGED, viewLifecycleOwner) {
             mViewModel.updateListCollectState()
-        })
-        Bus.observe<Pair<Long, Boolean>>(USER_COLLECT_UPDATED, viewLifecycleOwner, {
+        }
+        Bus.observe<Pair<Long, Boolean>>(USER_COLLECT_UPDATED, viewLifecycleOwner) {
             mViewModel.updateItemCollectState(it)
-        })
+        }
     }
 
     override fun lazyLoadData() {
@@ -137,14 +137,14 @@ class SystemPagerFragment : BaseVmFragment<SystemPagerViewModel>(), ScrollToTop 
     }
 
     override fun scrollToTop() {
-        recyclerView?.smoothScrollToPosition(0)
+        mBinding.recyclerView?.smoothScrollToPosition(0)
     }
 
     fun check(position: Int) {
         if (position != checkedPosition) {
             checkedPosition = position
             categoryAdapter.check(position)
-            (rvCategory.layoutManager as? LinearLayoutManager)
+            (mBinding.rvCategory.layoutManager as? LinearLayoutManager)
                 ?.scrollToPositionWithOffset(position, 8.dpToPx().toInt())
             mViewModel.refreshArticleList(categoryList[checkedPosition].id)
         }

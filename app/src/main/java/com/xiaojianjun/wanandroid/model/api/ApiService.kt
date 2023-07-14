@@ -4,7 +4,8 @@ import com.xiaojianjun.wanandroid.model.bean.*
 import retrofit2.http.*
 
 /**
- * Created by xiaojianjun on 2019-09-18.
+ * Created by yangfeihu on 2019-09-18.
+ * api接口
  */
 interface ApiService {
 
@@ -55,7 +56,7 @@ interface ApiService {
     suspend fun getNavigations(): ApiResult<List<Navigation>>
 
     @GET("banner/json")
-    suspend fun getBanners(): ApiResult<List<Banner>>
+    suspend fun getBanners(): ApiResult<List<BannerData>>
 
     @GET("hotkey/json")
     suspend fun getHotWords(): ApiResult<List<HotWord>>

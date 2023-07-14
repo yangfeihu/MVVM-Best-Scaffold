@@ -3,7 +3,7 @@ package com.xiaojianjun.wanandroid.ui.main.discovery
 import com.xiaojianjun.wanandroid.model.api.RetrofitClient
 
 /**
- * Created by xiaojianjun on 2019-09-18.
+ * Created by yangfeihu on 2019-09-18.
  */
 class DiscoveryRepository {
     suspend fun getBanners() = RetrofitClient.apiService.getBanners().apiData()

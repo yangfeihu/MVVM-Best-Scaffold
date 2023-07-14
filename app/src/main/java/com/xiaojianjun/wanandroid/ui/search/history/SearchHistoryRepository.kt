@@ -4,7 +4,7 @@ import com.xiaojianjun.wanandroid.model.api.RetrofitClient
 import com.xiaojianjun.wanandroid.model.store.SearchHistoryStore
 
 /**
- * Created by xiaojianjun on 2019-11-28.
+ * Created by yangfeihu on 2019-11-28.
  */
 class SearchHistoryRepository {
 
