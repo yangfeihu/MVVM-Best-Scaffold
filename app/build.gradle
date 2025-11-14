@@ -147,8 +147,13 @@ dependencies {
     implementation "io.coil-kt:coil-video:$coil_kt_version"
 
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.6'
-    implementation 'com.hyman:flowlayout-lib:1.1.2'
-    implementation 'com.just.agentweb:agentweb:4.1.4'
+    //implementation 'com.hyman:flowlayout-lib:1.1.2'
+    implementation 'com.github.hongyangAndroid:FlowLayout:master'
+    
+    //implementation 'com.just.agentweb:agentweb:4.1.4'
+    implementation 'io.github.justson:agentweb-core:v5.1.1-androidx'
+    
+    
     implementation 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
 
     implementation 'io.github.youth5201314:banner:2.2.2'
